@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="blocChat">
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Bloc Base Project</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <title>Bloc Chat Angular</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Bitter">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/style.css">
 </head>
 <body>
+      <!-- <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="assets/images/bloc-logo-3.jpeg" alt="bloc logo">
+        </a>
+    </nav> -->
+    <ui-view></ui-view>
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAvIRJibxe3Nr-H3mqmHhr0bxY5NN1CheY",
+        authDomain: "bloc-chat-angular-770c3.firebaseapp.com",
+        databaseURL: "https://bloc-chat-angular-770c3.firebaseio.com",
+        storageBucket: "bloc-chat-angular-770c3.appspot.com",
+        messagingSenderId: "776172378819"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
     <script src="/scripts/app.js"></script>
 </body>
 </html>
