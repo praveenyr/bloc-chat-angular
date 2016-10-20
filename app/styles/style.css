@@ -21,29 +21,12 @@ body {
   font-family: 'Bitter', serif;
 }
 
-/*.navbar {
-    height: 5rem;
-    position: relative;
-    padding: 1.5rem;
-    background-color: rgba(101,18,95,0.5);
-    z-index: 1;
-}
-
-.navbar .logo{
-    position: relative;
-    width: 100%;
-    height: 70%;
-    padding: 1.5rem;
-    cursor: pointer;  /* produces the finger-pointer icon when you hover over the logo
-}*/
-
 .container {
      margin: 0 auto;
      width: 100%;
      height: 100%;
      left:0;
      top:0;
-
  }
 
 .chatroom-list-container {

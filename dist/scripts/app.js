@@ -10,6 +10,7 @@
       $stateProvider
             .state('home', {
                 url: '/',
+                controller: 'RoomCollectionCtrl as roomcollection',
                 templateUrl: '/templates/home.html'
               })
       }

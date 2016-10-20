@@ -1,8 +1,8 @@
 <section class="container">
   <div class="chatroom-list-container column third">
       <h1 class="heading">Bloc Chat</h1>
-      <div class="chatroom">
-          <a href="" class="room-link">Room 1</a>
+      <div class="chatroom" ng-repeat="room in roomcollection.rooms track by $index">
+          <a ui-sref="" class="room-link">{{ room + $index }}</a>
       </div>
   </div>
   <div class="chat-container column two-thirds">
