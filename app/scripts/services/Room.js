@@ -6,9 +6,10 @@
 
     window.foo = rooms;
 
-    rooms.$add({name:"Code"});
-    rooms.$add({name:"Sports"});
-    rooms.$add({name:"Hangout"});
+    rooms.addRoom = function(name){;
+      console.log("Inside addRoom :" + name);
+        this.$add({name: name});
+    };
 
     return {
       all: rooms
