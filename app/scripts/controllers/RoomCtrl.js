@@ -1,17 +1,19 @@
 (function() {
-    function RoomCollectionCtrl(Room,Message)  {
+    function RoomCollectionCtrl($cookies,Room,Message)  {
+       console.log("In controller");
+
+        this.userName = $cookies.get('blocChatCurrentUser');
         this.rooms = Room.all;
-        //Get messages by Room Id;
-        // this.messages = Message.getByRoomId(roomId);
+
+        /*Sets Active room and loads message for the room*/
         this.setActiveRoom = (room) => {
           this.activeRoom = room;
           this.messages = Message.getByRoomId(room.$id);
-
           console.log(this.messages);
         }
       }
 
     angular
         .module('blocChat')
-        .controller('RoomCollectionCtrl',['Room','Message', RoomCollectionCtrl] );
+        .controller('RoomCollectionCtrl',['$cookies','Room','Message', RoomCollectionCtrl] );
 })();

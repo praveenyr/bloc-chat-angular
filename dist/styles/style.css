@@ -35,6 +35,14 @@ body {
   border: 2px solid grey;
 }
 
+.chatroom-list-container p {
+  text-align: center;
+}
+
+.chatroom-list-container p span {
+  color : #992600;
+}
+
 .chatroom-list-container .chatheader {
   position: relative;
   margin-top: 2rem;
@@ -49,6 +57,7 @@ body {
   text-align: center;
   padding : 1rem;
 }
+
 
 .chatroom-list-container .chatheader button {
   position:relative;
@@ -80,6 +89,8 @@ body {
   background-color: black;
   color: white;
 }
+
+
 
 .chatroom-list-container .chatroom {
   clear:both;
