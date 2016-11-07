@@ -1,13 +1,21 @@
-<section class="container">
+<section class="container" >
   <div class="chatroom-list-container column third">
       <div class="chatheader">
         <h1 class="heading">Bloc Chat</h1>
         <button type="button">New Room</button>
       </div>
       <div class="chatroom" ng-repeat="room in roomcollection.rooms track by $index">
-          <a class="room-link">{{ room.name + " Room" }}</a>
+          <a class="room-link" ng-click="roomcollection.setActiveRoom(room)">{{ room.name + " Room" }}</a>
       </div>
   </div>
   <div class="chat-container column two-thirds">
+    <div>
+      <h3 class="roomheader">{{roomcollection.activeRoom.name + " Room"}}</h3>
+    </div>
+    <div ng-class-odd="'odd'" ng-class-even="'even'" class="chat-message" ng-repeat="message in roomcollection.messages">
+      <p class="name">{{ message.username + ":"}}</p>
+      <p class="timestamp">{{ message.sentAt }}</p>
+      <p class="message">{{ message.content }}</p>
+    </div>
   </div>
 </section>
