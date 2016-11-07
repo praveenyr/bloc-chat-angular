@@ -18,10 +18,10 @@
       function BlocChatCookies($cookies) {
         console.log("in run cookie func");
         var currentUser = $cookies.get('blocChatCurrentUser');
-        if (!currentUser || currentUser === '') {
-          currentUser = prompt("Please log in: ");
-          $cookies.put('blocChatCurrentUser',currentUser);
+        while (!currentUser || currentUser === '') {
+          currentUser = prompt("User not logged in.Please enter your username: ");                     
         }
+        $cookies.put('blocChatCurrentUser',currentUser);
       }
 
     angular
