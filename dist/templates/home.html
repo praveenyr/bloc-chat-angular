@@ -18,5 +18,11 @@
       <p class="timestamp">{{ message.sentAt }}</p>
       <p class="message">{{ message.content }}</p>
     </div>
+    <div class="typemessage">
+      <form name="newMessageForm" ng-submit="roomcollection.sendMessage()">
+          <input type="text" ng-model="roomcollection.chatmessage">
+          <input type="submit" value="Send">
+      </form>
+    </div>
   </div>
 </section>

@@ -8,6 +8,13 @@
         // Filter the messages by their room ID.
         console.log(roomId);
         return $firebaseArray(ref.orderByChild("roomId").equalTo(roomId));
+      },
+
+      //Sending a new chat message to the room
+      send: function(newMessage) {
+        // Send method logic
+        console.log(newMessage);
+        $firebaseArray(ref).$add(newMessage);
       }
 
     };
