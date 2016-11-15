@@ -36,14 +36,29 @@ body {
 }
 
 .chatroom-list-container p {
-  text-align: center;
+    float:left;
 }
+
+.chatroom-list-container nav {
+    float:right;
+    padding:1.1rem;
+}
+
+.chatroom-list-container nav button {
+  font-family: 'Bitter', serif;
+  font-weight:bold;
+  border-radius: 4px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
 
 .chatroom-list-container p span {
   color : #992600;
 }
 
 .chatroom-list-container .chatheader {
+  clear:both;
   position: relative;
   margin-top: 2rem;
   margin-left: 8rem;

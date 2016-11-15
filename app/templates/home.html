@@ -1,11 +1,15 @@
 <section class="container" >
-  <div class="chatroom-list-container column third">
+  <div class="chatroom-list-container column third" ng-controller="MyAuthCtrl as myAuth">
     <p>User: <span>{{" " + roomcollection.userName}}</span></p>
+    <nav>
+      <button ng-show="!myAuth.signedIn" ng-click="myAuth.signInUser()"> Login </button>
+      <span ng-show="myAuth.signedIn"><a href="#" ng-click="myAuth.signOutUser()"> Logout </a></span>
+    </nav>
       <div class="chatheader">
         <h1 class="heading">Bloc Chat</h1>
-        <button type="button">New Room</button>
+        <button type="button" ng-show="myAuth.adminUser">New Room</button>
       </div>
-      <div class="chatroom" ng-repeat="room in roomcollection.rooms track by $index">
+      <div class="chatroom" ng-show="myAuth.signedIn" ng-repeat="room in roomcollection.rooms track by $index">
           <a class="room-link" ng-click="roomcollection.setActiveRoom(room)">{{ room.name + " Room" }}</a>
       </div>
   </div>
@@ -20,7 +24,7 @@
     </div>
     <div class="typemessage">
       <form name="newMessageForm" ng-submit="roomcollection.sendMessage()">
-          <input type="text" ng-model="roomcollection.chatmessage">
+          <input type="text" ng-model="roomcollection.newMessage.content" placeholder="Type your Message here...">
           <input type="submit" value="Send">
       </form>
     </div>
