@@ -178,21 +178,27 @@ Login with a different user and show messages
 
 Start by cloning the repository:
 
-```$ git clone git@github.com:praveenyr/bloc-chat-angular.git
+```
+$ git clone git@github.com:praveenyr/bloc-chat-angular.git
+
 ```
 
 The project uses Grunt to run tasks in development. Thoroughly review our [resource on using Grunt](https://www.bloc.io/resources/using-grunt) before using this application. It may also help to review [our resource on NPM and `package.json` files](https://www.bloc.io/resources/npm-and-package-json).
 
 Install the project dependencies by running:
 
-```$ npm install
+```
+$ npm install
+
 ```
 
 ## Run the Application
 
 Run the application:
 
-```$ npm start
+```
+$ npm start
+
 ```
 
 The start command runs a simple server on port 3000. To view it in a any browser, go to [http://localhost:3000](http://localhost:3000).
