@@ -1,46 +1,201 @@
-## Bloc Frontend Project Starter
+## Bloc-Chat
 
-A starter application for student projects in Bloc's [Frontend Web Development Course](https://www.bloc.io/frontend-development-bootcamp).
+![blocchat](/app/assets/images/blocchat-main.png)
 
+**Blocchat** is a chatroom app which allows users to send messages to each other via chatrooms.Users will also have the ability to create their own chatrooms.--
+Blocchat has been built with the following technologies -
+
+- AngularJS(1.5.7)
+- AngularFire(2.0.1)
+
+## _User stories_
+
+The following user stories are part of the blocchat app:
+
+1. Users need to sign in to _Blocchat_ to view the available rooms
+2. Users need to have the ability to create chat rooms.
+3. Users need to see the current messages in all rooms.
+4. Users need to send messages associated with their user name in all rooms.
+
+## _Solution_
+
+#### List all rooms
+--------------------
+
+The first step would be to create a room factory,inject the `$firebaseArray()` service and then use the firebase's `child()` method to query the rooms.
+
+  ```
+  (function() {
+    function Room($firebaseArray) {
+      var ref = firebase.database().ref().child("rooms");
+      var rooms = $firebaseArray(ref);
+
+      window.foo = $firebaseArray(firebase.database().ref().child("messages"));
+
+      return {
+        all: rooms
+      };
+    }
+
+    angular
+      .module('blocChat')
+      .factory('Room', ['$firebaseArray', Room]);
+  })();
+
+  ```
+
+#### Create chat rooms
+----------------------
+
+To create new chat rooms,I've used the AngularFire's `$add` method inside a RoomFactory method `add` which takes `room` as an argument.
+
+  ```
+  (function() {
+    function Room($firebaseArray) {
+    ......
+    ......
+
+      rooms.addRoom = function(name){
+      this.$add({name: name});
+      };
+
+      }
+
+    angular
+      .module('blocChat')
+      .factory('Room', ['$firebaseArray', Room]);
+  })();
+
+  ```
+
+#### List Messages
+--------------------
+
+To list all the messages when the user clicks a chat room,the pattern is same as that of a room - create a `message` factory,inject the `$firebaseArray` service ,and use the `child()` method to query for messages.
+
+  ```
+  (function() {
+    function Message($firebaseArray) {
+    var ref = firebase.database().ref().child("messages");
+    //var messages = $firebaseArray(ref);
+
+    return {
+      getByRoomId: function (roomId) {
+        // Filter the messages by their room ID.
+        console.log(roomId);
+        return $firebaseArray(ref.orderByChild("roomId").equalTo(roomId));
+      },
+
+    };
+
+
+    angular
+        .module('blocChat')
+        .factory('Message', ['$firebaseArray', Message]);
+    })();
+
+  ```
+
+#### Send messages
+------------------
+
+In this case,we add a method to your Message factory called send, that takes a message object as an argument and submits it to your Firebase server:
+
+  ```
+  (function() {
+    function Message($firebaseArray) {
+    ....
+    ....
+    send: function(newMessage) {
+          // Send method logic
+          console.log(newMessage);
+          $firebaseArray(ref).$add(newMessage);
+        }
+    ....
+    ....
+
+     angular
+    .module('blocChat')
+    .factory('Message', ['$firebaseArray', Message]);
+    })();
+
+  ```
+
+#### User Authentication
+-------------------------
+
+To store the user in the browser,I used _cookies_ and to integrate cookies with Angular -
+
+- Inject the `ngCookies` module in to the Angular app's dependency array
+- Inject the $cookies service into the run block's dependencies to check for the presence of the cookie holding the username
+
+  ```
+  (function() {
+    function BlocChatCookies($cookies) {
+      var currentUser = $cookies.get('blocChatCurrentUser');
+      if (!currentUser || currentUser === '') {
+        // Do something to allow users to set their username
+      }
+    }
+
+    angular
+      .module('blocChat')
+      .run(['$cookies', BlocChatCookies]);
+    })();
+
+    ```
+
+Next, I've used the basic javascript `prompt()` in the authentication controller to prompt the user for _email_ and _password_ when user clicks 'Login'
+
+## _Results_
+
+#### User Signin
+--------------------
+Before testing the authentication,users have to be manually created in the firebase database.
+
+![sign in](/app/assets/images/email.png "Sign In")
+
+#### List Chatrooms
+--------------------
+Shows a list of chatrooms available for the user.
+
+![list chatrooms](/app/assets/images/listchatrooms.png "list chatrooms")
+
+#### Send Messages
+--------------------
+Select a chatroom and send a message to the chatroom
+
+![send messages](/app/assets/images/sendmessages.png "send messages")
+
+#### Show Messages
+--------------------
+Login with a different user and show messages
+
+![show messages](/app/assets/images/showmessages.png "show messages")
 ## Configuration
+
+## Run _BlocChat_ app:_
 
 Start by cloning the repository:
 
-```
-$ git clone https://github.com/Bloc/bloc-frontend-project-starter.git <your-frontend-project-name>
+```$ git clone git@github.com:praveenyr/bloc-chat-angular.git
 ```
 
 The project uses Grunt to run tasks in development. Thoroughly review our [resource on using Grunt](https://www.bloc.io/resources/using-grunt) before using this application. It may also help to review [our resource on NPM and `package.json` files](https://www.bloc.io/resources/npm-and-package-json).
 
 Install the project dependencies by running:
 
-```
-$ npm install
+```$ npm install
 ```
 
 ## Run the Application
 
-Run the application using the Gruntfile's `default` task:
+Run the application:
 
+```$ npm start
 ```
-$ grunt
-```
 
-The default task runs a simple server on port 3000. To view it in a any browser, go to [http://localhost:3000](http://localhost:3000).
-
->Note that unless the application is run [via Live Preview in Brackets](#use-in-brackets-live-preview), the browser will need to be refreshed to view the most recent changes.
-
-### Using without Angular
-
-By default, the application is configured to be used in a Single-Page Application (SPA) with AngularJS. If you're working on a project that doesn't use AngularJS, see the instructions below [for configuring the server to run in a non-SPA](#configure-server-for-non-spas).
-
-## Use in Brackets Live Preview
-
-To use the application with the Live Preview functionality of the Brackets text editor, go to __File > Project Settings__ and add `http://localhost:3000` to the Base URL field.
-
-![Screenshot of project settings URL in Brackets](https://bloc-global-assets.s3.amazonaws.com/images-frontend/screenshots/bloc-frontend-project-starter/live_preview_project_settings.png)
-
-The text in the application will not update on every keystroke, but changes will automatically push when you save the file.
+The start command runs a simple server on port 3000. To view it in a any browser, go to [http://localhost:3000](http://localhost:3000).
 
 ## Directory Structure
 
@@ -53,10 +208,21 @@ The text in the application will not update on every keystroke, but changes will
 │   ├── assets
 │   │   └── images
 │   │       └── bloc-logo-white.png
+│   │       └── bloc-chat-main.png
+│   │       └── email.png
+│   │       └── listchatrooms.png
+│   │       └── sendmessages.png
+│   │       └── showmessages.png
 │   ├── pages
 │   │   └── index.html
 │   ├── scripts
 │   │   └── app.js
+│   │   └── controllers
+│   │       └── MyAuthCtrl.js
+│   │       └── RoomCtrl.js
+│   │   └── services
+│   │       └── Message.js
+│   │       └── Room.js
 │   ├── styles
 │   │   └── style.css
 │   └── templates
@@ -66,82 +232,6 @@ The text in the application will not update on every keystroke, but changes will
 ```
 
 All code, styles, markup, and assets should be saved to the `app` directory. Saving changes creates a new directory, `dist`, that holds final copies of the application content. `dist` is the directory the server uses to serve the content displayed by the browser. __Do not edit files in `dist`__ because it will reset changes to your work every time you save. Restrict all edits to files in the `app` directory.
-
-### Assets/Images
-
-Add images to the `app/assets/images` directory. To reference images in HTML, use the path `/assets/images/<image file name>.jpg`. For example, to include the image called `bloc-white-logo.png`, the path for the `src` attribute in the HTML would be:
-
-```html 
-<img src="/assets/images/bloc-white-logo.png">
-```
-
-__Note:__ A sample image has been added to `app/images`. To remove the image from the application, run the following command from the root of repo:
-
-```bash
-$ rm -f app/assets/images/bloc-white-logo.png
-```
-
-To reference any other assets, like the music in Bloc Jams, use the path `assets/<asset-type>/<asset-file>`. The Gruntfile is pre-configured to handle assets in a subfolder with the `.mp3` extension.
-
->See lines 14 and 35 of `Gruntfile.js` for the accepted file extensions of assets.
-
-### Difference between Pages and Templates
-
-The `templates` directory should hold any HTML files used as templates in Angular states configured by UI Router. All other HTML files belong in the `pages` directory.
-
-### Procfile
-
-The `Procfile` is a file for [providing instructions to Heroku servers](https://devcenter.heroku.com/articles/procfile) that run after pushing new code to the repository. __Do not change the contents of the Procfile__ or Heroku will throw an error when you attempt to visit your application.
-
->For more information about how to use Heroku with Bloc's frontend applications, see our [resource on using Heroku](https://www.bloc.io/resources/using-heroku-frontend).
-
-## Configure Server for Non-SPAs
-
-By default, `bloc-frontend-project-starter` is configured to be used with SPAs. If you're not building a project with Angular, then modify `server.js` with the following:
-
-```diff
-var Hapi = require('hapi'),
-    path = require('path'),
-    port = process.env.PORT || 3000,
-    server = new Hapi.Server(port),
-    routes = {
-        css: {
-            method: 'GET',
-            path: '/styles/{path*}',
-            handler: createDirectoryRoute('styles')
-        },
-        js: {
-            method: 'GET',
-            path: '/scripts/{path*}',
-            handler: createDirectoryRoute('scripts')
-        },
-        assets: {
-            method: 'GET',
-            path: '/assets/{path*}',
-            handler: createDirectoryRoute('assets')
-        },
-        templates: {
-            method: 'GET',
-            path: '/templates/{path*}',
-            handler: createDirectoryRoute('templates')
-        },
--        spa: {
-+        staticPages: {
-             method: 'GET',
-             path: '/{path*}',
--            handler: {
--                file: path.join(__dirname, '/dist/index.html')
--            }
-+            handler: createDirectoryRoute('/')
-         }
-     };
- 
--server.route([ routes.css, routes.js, routes.images, routes.templates, routes.spa ]);
-+server.route([ routes.css, routes.js, routes.images, routes.templates, routes.staticPages ]);
-...
-```
-
-Optionally, delete the `templates` directory and all references to it in `Gruntfile.js` to remove unnecessary files (templates are only useful for SPAs). However, keeping them in the repository won't affect your application.
 
 ## Grunt plugins
 
